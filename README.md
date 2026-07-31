@@ -5,6 +5,7 @@ Hermes Agent skill：基于 IMRAD 结构骨架 + SCI 通用写作范式，对学
 - 题目 / 摘要 / 关键词 / 引言 / 方法 / 结果 / 讨论 / 结论 / 致谢 / 参考文献 逐节审查
 - 中英双语适用
 - 先出审阅报告，经确认后再落盘改稿
+## 如何拉取
 ```bash
 git clone https://github.com/xiaojjo/sci-writestructure.git
 ```
