@@ -24,20 +24,37 @@ STEM / Humanities / Medicine / Agriculture / Economics — language-agnostic, wo
 ## Workflow
 
 ```mermaid
-flowchart LR
-    A[Submit manuscript] --> B[Step 0 — Intake]
-    B --> C[Step 1 — Originality Gate\n4-question pre-check]
-    C --> D{Any no?}
-    D -->|Yes| E[⚠️ Risk flag added]
-    D -->|No| F[Step 2 — Section Review]
+flowchart TB
+    %% 定义样式
+    classDef startEnd fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef process fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef risk fill:#ffebee,stroke:#c62828,stroke-width:2px;
+
+    A[提交稿件] --> B[步骤0：收稿登记]
+    B --> C[步骤1：原创性初审<br>（4项预检）]
+    C --> D{预检结果中<br>是否有“否”？}
+    
+    D -->|是（存在风险项）| E[打上风险标记]
+    D -->|否（全部通过）| F[步骤2：栏目复审]
     E --> F
-    F --> G[Step 3 — Generate Report]
-    G --> H{Apply edits?}
-    H -->|Yes| I[Step 4 — Apply Edits]
-    H -->|No| J[Done]
-    I --> K{Re-review?}
-    K -->|Yes| F
-    K -->|No| J
+    
+    F --> G[步骤3：生成审稿报告]
+    G --> H{是否需要<br>应用编辑修改？}
+    
+    H -->|是| I[步骤4：执行修改]
+    H -->|否| J[流程结束]
+    
+    I --> K{是否需要<br>重新复审？}
+    K -->|是| F
+    K -->|否| J
+
+    %% 应用样式
+    class A,B startEnd;
+    class C,F,G,I process;
+    class D,H,K decision;
+    class E risk;
+    class J startEnd;
 ```
 
 **Step summary**
