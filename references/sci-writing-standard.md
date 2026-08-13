@@ -7,7 +7,7 @@ This file supplements `references/paper-criteria.md`'s IMRAD skeleton with per-s
 
 ---
 
-## 0. Standard Section Order (memorise, do not drift)
+## 0. Standard Section Order 
 
 ```
 Title → Abstract → Keywords → Introduction → Materials & Methods
