@@ -1,13 +1,13 @@
-# SCI 论文通用写作范式 (Universal SCI Writing Standard)
+# Universal SCI Writing Standard
 
-适用：理工科、文科、医学、农林、经管等**所有 SCI 学科通用**。
-本文件是 `sci-writestructure` skill 的**详细 SCI 撰写标准**，在 `references/paper-criteria.md` 的 IMRAD 结构骨架之上，补充各节的字数/句式公式、可借鉴的句式骨架（替换变量后套用）与避雷点。
+Applicable to: all SCI disciplines — STEM, humanities, medicine, agriculture, economics.
+This file supplements `references/paper-criteria.md`'s IMRAD skeleton with per-section word-count formulae, reusable sentence skeletons (replace variables and套用), and pitfalls.
 
-> 本文件为**活文档**：各节可借鉴的句式骨架已统一整理至 `references/phrase-bank.md`，本文件不再重复存放。
+> **Note**: reusable sentence skeletons are consolidated in `references/phrase-bank.md`. This file does not repeat them.
 
 ---
 
-## 0. 通用标准顺序（骨架，牢记不跑偏）
+## 0. Standard Section Order (memorise, do not drift)
 
 ```
 Title → Abstract → Keywords → Introduction → Materials & Methods
@@ -16,108 +16,109 @@ Title → Abstract → Keywords → Introduction → Materials & Methods
 
 ---
 
-## 1. Title 标题（审稿人第一眼重点）
+## 1. Title
 
-**核心要求**：15-22 个单词、无废话、不堆砌、不带多余修饰，包含【研究对象 + 核心方法 + 优化亮点/应用场景】。
+**Core requirement**: 15–22 words, no fluff, no stacking, no excess modifiers; must include [research object + core method + optimisation highlight/application scenario].
 
-**爆款写作公式**
+**Formula**:
 
-- 传统版本：研究对象 + 研究方法 + 试验分析
-- 高分版本：新型方法 + 研究对象 + 性能优化/缺陷改进 + 应用价值
+- Traditional: research object + research method + experimental analysis
+- High-impact: novel method + research object + performance optimisation/defect improvement + application value
 
-**避雷**：不要疑问句、不要缩写、不要过长修饰、不要夸大研究成果。
-
----
-
-## 2. Abstract 摘要（5 句式满分模板，直接套）
-
-SCI 摘要不写背景废话、不写主观感悟，严格 5 段式，**200-250 词**，一票否决关键板块。
-
-1. **研究背景**：领域现状 + 现有行业痛点
-2. **研究缺口**：前人研究不足、现有技术缺陷（However 转折）
-3. **研究目的 + 方法**：本文提出什么方法、开展哪些实验
-4. **核心结果**：精准数据、对比提升效果（放关键数值）
-5. **研究价值**：理论意义 + 工程/临床应用价值
-
-**新手口诀**：痛点 → 缺口 → 做法 → 数据 → 意义
+**Pitfalls**: no questions, no abbreviations, no over-long modifiers, no exaggerated claims.
 
 ---
 
-## Keywords 关键词
+## 2. Abstract
 
-- **数量**：通常 5-8 个，严格按目标期刊 Guide for Authors 执行。
-- **范围**：反映论文实质论题，避免过于宽泛（如仅写 "market"、"method"）。
-- **缩写**：仅使用领域内已明确确立的缩写；非常规缩写首次须给出全称。
-- **交叉检索**：优先选用 MeSH / 学科主题词表中的规范术语，提升检索命中率。
-- **审查要点**：数量/格式符合期刊指南？是否过于宽泛？是否含非标准缩写？
+SCI abstracts do not write background fluff or subjective reflections. Strictly 5-part, **200–250 words**; missing any key section is a one-vote否决.
 
----
+1. **Research background**: field status + current industry pain point
+2. **Research gap**: what previous studies lack; what existing techniques defect (However transition)
+3. **Research purpose + method**: what this paper proposes; what experiments are conducted
+4. **Core results**: precise data, comparative improvement effect (include key numerical values)
+5. **Research significance**: theoretical value + engineering/clinical application value
 
-## 3. Introduction 引言
-
-核心目标：「让读者相信你的研究有意义、有必要做」。
-整体逻辑链条：**研究背景 —— 研究现状 —— 研究不足 —— 本文研究目的/假设 —— 研究意义**。
-
-1. **研究背景与重要性**：介绍大背景（如疾病发病率、危害，核心分子/通路功能），引用 1-2 篇领域内高被引综述或顶刊论文，说明研究价值。
-2. **研究现状与进展**：聚焦本文研究核心（特定分子、干预措施、检测方法），综述近 3-5 年相关研究 3-5 篇，说明已取得成果。
-3. **现有研究不足**：基于上述现状，明确指出「现有研究的不足/空白」—— 这是本研究核心依据。**不足须具体、明确，避免模糊**（避免写「现有研究有很多不足」）；且不足必须是本文能解决的。
-   - 常见研究不足类型：① 机制缺口（已知相关但调控机制不明）；② 方法缺口（现有检测/干预存在缺陷）；③ 临床缺口（基础未转化，或临床样本小、结论不明）。
-4. **本文研究目的、假设与意义**：明确提出研究目的、研究假设（可选），简述研究方法，最后点明创新点与意义（基础意义 + 临床意义，**优先突出临床意义**）。
+**Mnemonic**: pain point → gap → method → data → significance.
 
 ---
 
-## 4. Materials and Methods 材料与方法
+## Keywords
 
-目标：**可重复** —— 让同行根据你的描述完全复现研究过程。高分杂志要求极高，模糊的方法描述是常见拒稿原因。
-
-1. **实验材料/研究对象**：明确列出所有实验材料、试剂、仪器、研究对象，标注来源、规格、批号（确保可追溯）。
-2. **实验方法/研究设计**：按实验流程详细描述每一步操作，明确操作参数（药物浓度、处理时间、反应条件），避免模糊表述；不同实验方法分小标题撰写。
-3. **统计学方法**：明确所有统计学分析方法、统计学软件、数据表示方式，以及差异有统计学意义的判断标准。
-
----
-
-## 5. Results 研究结果（只摆数据，不解读！）
-
-只做 3 件事：**展示数据、描述图表、陈述客观现象**。
-
-1. 对照组 VS 实验组数据差异
-2. 图表对应文字描述（Fig.1 / Table 1 一一对应）
-3. 各项指标变化规律、试验客观现象
-
-**禁止**：不解释原因、不对比前人文献、不评价优劣！
-
-**补充规范**
-
-- **小标题设计**：明确「检测指标 + 核心结果趋势」，避免模糊；按实验流程或研究目的排序（如先细胞后动物；先基础指标后核心指标）。
-- **内容撰写**：每段 1 个核心结果，数据 + 图表结合，避免多个结果混杂。
-- **图表类型**：根据结果选择（折线图、柱状图等），全文尽量保持统一。
-- **图表标注**：图（Fig. 1, Fig. 2…）、表（Table 1, Table 2…）按出现顺序编号；标题简洁具体，明确核心内容。
-- **数据标注**：标注误差线（如标准差 SD）、样本量（N 值）、统计学差异（如 *P<0.05, **P<0.01），清晰可辨。
-- **图文对应**：正文明确引用图表（如 "as shown in Fig. 1"），图表内容与正文完全一致，不出现图文矛盾。
-- **图表独立性**：每个图表只呈现 1 个核心结果，避免 1 个图包含多个无关结果。
+- **Quantity**: typically 5–8; strictly follow the target journal's Guide for Authors.
+- **Scope**: reflect the paper's substantive topic; avoid overly broad terms (e.g., only "market", "method").
+- **Abbreviations**: only use abbreviations firmly established in the field; non-standard abbreviations must give the full term on first use.
+- **Cross-indexing**: prefer MeSH / discipline subject heading terms to improve retrieval hit rate.
+- **Review points**: quantity/format match journal guidelines? Too broad? Non-standard abbreviations?
 
 ---
 
-## 6. Discussion 讨论（SCI 高分核心！拉开分差）
+## 3. Introduction
 
-写作核心：**解读数据 + 对标文献 + 讲透创新**。论文能否录用、能否升分区，全看此章。
+**Core goal**: make the reader believe your research is meaningful and necessary.
 
-**标准 4 步写作法**
+**Logic chain**: research background → research status → research gap → this paper's purpose/hypothesis → research significance.
 
-1. 总结全文核心显著性结果
-2. 结合前人文献对比：和以往研究一致 / 相悖，说明原因
-3. 深挖：本研究为什么出现该数据？机理、原理深度剖析
-4. 优势说明：本方法优于现有技术的核心亮点
-5. 客观写明：研究局限性、客观短板
+1. **Background & importance**: introduce the broad background (e.g., disease incidence, harm, core molecular/pathway function); cite 1–2 highly-cited reviews or top-journal papers to establish value.
+2. **Status & progress**: focus on the paper's core (specific molecule, intervention, detection method); survey 3–5 related studies from the past 3–5 years; state what has been achieved.
+3. **Existing gap**: based on the above, clearly identify "what is lacking in existing research" — this is the core rationale for this study. **Gap must be specific and addressable by this paper** (avoid "existing studies have many shortcomings"); must be solvable by this paper.
+   - Common gap types: ① mechanistic gap (related but regulatory mechanism unclear); ② methodological gap (existing detection/intervention has defects); ③ clinical gap (basic not translated, or clinical samples small, conclusions unclear).
+4. **Purpose, hypothesis & significance**: state the research purpose and hypothesis (optional) clearly; briefly describe methods; end with innovation points and significance (basic value + clinical value, **prioritise clinical significance**).
 
 ---
 
-## 7. Conclusion 结论（精简凝练，不重复讨论）
+## 4. Materials and Methods
 
-**3 句话模板直接套用**
+**Goal: reproducibility** — let peers reproduce the study entirely from your description. High-impact journals demand extremely high detail; vague method descriptions are a common rejection reason.
 
-1. 总结全文整体研究工作与最优结果
-2. 凝练本研究理论 + 实际应用价值
-3. 未来优化方向、后续科研展望
+1. **Experimental materials / study subjects**: list all materials, reagents, instruments, study subjects; annotate source, specification, batch number (ensure traceability).
+2. **Experimental methods / study design**: describe every step of the experimental process in detail; specify operational parameters (drug concentration, treatment time, reaction conditions); avoid vague phrasing; use subheadings for different methods.
+3. **Statistical methods**: specify all statistical analysis methods, software, data presentation format, and criteria for statistical significance.
 
-**避雷**：不要重复 Discussion 语句、不要新增数据、不要新增结论！
+---
+
+## 5. Results
+
+**Only three things**: show data, describe figures/tables, state objective phenomena.
+
+1. Control group VS experimental group data differences
+2. Figure-table–text correspondence (Fig. 1 / Table 1 one-to-one)
+3. Changes in each indicator, objective experimental phenomena
+
+**Prohibited**: do not explain causes, do not compare with previous literature, do not evaluate pros/cons!
+
+**Supplementary norms**:
+
+- **Subheading design**: explicit "detection indicator + core result trend"; avoid vague headings; order by experimental flow or research purpose (e.g., cells before animals; basic indicators before core indicators).
+- **Content writing**: one core result per paragraph; combine data + figures; avoid mixing multiple results.
+- **Figure type**: choose according to results (line chart, bar chart, etc.); keep uniform across the paper.
+- **Figure/table annotation**: figures (Fig. 1, Fig. 2…) and tables (Table 1, Table 2…) numbered in order of appearance; titles concise and specific, clearly stating core content.
+- **Data annotation**: error bars (e.g., SD), sample size (N), statistical significance (e.g., *P* < 0.05, **P** < 0.01) must be clearly marked.
+- **Figure-text correspondence**: explicitly cite figures in text (e.g., "as shown in Fig. 1"); figure content must完全 match text; no figure-text contradiction.
+- **Figure independence**: each figure presents one core result only; do not combine unrelated results in one figure.
+
+---
+
+## 6. Discussion (the高分 core — where impact factor is won or lost)
+
+**Core**: interpret data + benchmark literature + articulate innovation. Whether the paper is accepted or upgraded depends on this chapter.
+
+**Standard 4-step writing method**:
+
+1. Summarise the paper's core significant findings
+2. Compare with previous literature: consistent or contradictory; explain why
+3. Deep dive: why did this study produce these data? Mechanism and principle analysis
+4. Strength: the core highlights where this method outperforms existing techniques
+5. Limitations: objectively state research limitations and shortcomings
+
+---
+
+## 7. Conclusion (concise, do not repeat Discussion)
+
+**3-sentence template**:
+
+1. Summarise the overall research work and optimal results
+2. Condense the paper's theoretical + practical application value
+3. Future optimisation directions and subsequent research outlook
+
+**Pitfalls**: do not repeat Discussion sentences; do not add new data; do not add new conclusions!

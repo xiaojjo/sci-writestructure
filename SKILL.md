@@ -1,185 +1,179 @@
----
-name: sci-writestructure
-description: 基于 IMRAD 结构骨架 + SCI 通用写作范式的学术论文修改/审阅 skill。当用户提交论文草稿、要求"修改论文/审阅我的稿子/按框架改稿/检查论文结构"、或针对题目/摘要/关键词/引言/方法/结果/讨论/结论/参考文献某一节的撰写质量提问时使用。适用所有 SCI 学科（理工/文理/医学/农林/经管）。覆盖原创性自检（4 问）+ 题目/摘要/关键词/引言/方法/结果/讨论/结论/致谢/参考文献 逐节审查、问题定位、严重程度评级与具体改写建议（含字数/句式公式、可借鉴的句式骨架与避雷点）；支持中英双语；默认先出审阅报告、经用户确认后再落盘改稿。
-agent_created: true
----
+# Paper Revision (sci-writestructure)
 
-# 论文修改 (sci-writestructure)
+## I. Purpose and Trigger
 
-## 一、定位与触发
+### 1.1 What this skill does
 
-### 1.1 本 skill 做什么
+Diagnoses and revises existing manuscript drafts section by section based on the IMRAD skeleton and universal SCI writing standards. The knowledge base consists of four reference files with complementary roles:
 
-依据「IMRAD 结构骨架 + SCI 通用写作范式」对已有草稿做逐节诊断与改写。知识库由四份参考文件构成，职责互补：
+| Reference file | Role | Provides |
+|----------------|------|----------|
+| `references/paper-criteria.md` | Principles | "Should it be written this way?" — Starting原创性自检 (4 questions) + IMRAD principles per section |
+| `references/sci-writing-standard.md` | Recipes | "How to write it specifically" — word counts, sentence formulae, skeleton templates, pitfalls per section |
+| `references/phrase-bank.md` | Phrases | "Which sentences to use" — English sentence skeletons organised by section (Part A) and by function (Part B) |
+| `references/discipline-templates.md` | Disciplines | M&M and metric phrasing for non-life-science disciplines (STEM/CS, Econ, Humanities/Social Sciences) |
 
-| 参考文件 | 角色 | 提供什么 |
-|----------|------|----------|
-| `references/paper-criteria.md` | 原则层 | 「该不该这样写」——Starting 原创性自检（4 问）+ 各节 IMRAD 通用原则 |
-| `references/sci-writing-standard.md` | 配方层 | 「具体怎么写」——各节字数/句式公式、可借鉴的句式骨架（替换变量后套用）、避雷点 |
-| `references/phrase-bank.md` | 句式层 | 「用什么句式写」——按章节（A 部）与按功能（B 部）组织的英文句式模板 |
-| `references/discipline-templates.md` | 学科层 | 非生科学科（理工/CS、经管、文科/社科）的 M&M 与指标措辞 |
+Language-agnostic: works for both Chinese and English drafts.
 
-标准语言无关，中、英文稿均可适用。
+### 1.2 When to activate
 
-### 1.2 何时触发
-
-- 用户上传或粘贴论文草稿，要求修改、润色、结构审查。
-- 用户就某一节提问，例如「我的引言写得怎么样」「摘要该用哪种类型」「图题是否 self-sufficient」。
-- 用户显式引用本 skill，或说「按框架改稿」「用论文修改标准帮我看稿」。
+- User uploads or pastes a manuscript draft requesting revision, polishing, or structural review.
+- User asks about a specific section (e.g., "How is my Introduction?", "What type of abstract should I use?", "Is my figure legend self-sufficient?").
+- User explicitly invokes this skill or says "follow the framework to revise", "use the paper-revision standard to review my draft".
 
 ---
 
-## 二、工作流程
+## II. Workflow
 
-### Step 0 — 接收与信息收集 (Intake)
+### Step 0 — Intake
 
-向用户确认以下信息（缺失则先索取，不要凭空生成稿件内容）：
+Confirm the following with the user (do not fabricate manuscript content if information is missing):
 
-1. **稿件位置**：文件路径，或直接粘贴的文本。若为 `.docx` / `.pdf` / `.tex` 等二进制或排版格式，先调用文档解析工具抽取纯文本与图表清单，再进入审查；**不要凭空猜测未解析出的内容**。
-2. **审稿范围**：根据用户的初始输入自动判断——若用户指定了章节（如「帮我看一下 Introduction 和 Discussion」），则仅审指定章节；若未指定，默认全篇逐节审查。
-3. **学科领域**：根据稿件内容自动推断，无法推断时默认生科/农林（优先使用 `phrase-bank.md`）。若明确识别为非生科/农林学科（理工、经管、文科/社科），改从 `references/discipline-templates.md`（D1–D5）取学科专属 M&M 与指标措辞。通用功能短语（gap、方法选择、结果陈述、结论、参考文献）跨领域通用，仍取 `phrase-bank.md` 的 B 部。
+1. **Manuscript location**: file path or pasted text. For `.docx` / `.pdf` / `.tex` binaries, extract plain text and figure/table list first via a document parser; **do not guess unextracted content**.
+2. **Review scope**: infer from user input — if specific sections are named (e.g., "review Introduction and Discussion"), review only those; otherwise default to full-paper review.
+3. **Discipline**: infer from manuscript content; default to life sciences/agriculture (use `phrase-bank.md`) if unidentifiable. If clearly non-life-science (STEM/CS, Econ, Humanities/Social Sciences), load `references/discipline-templates.md` (D1–D5) for discipline-specific M&M and metric phrasing. Generic functional phrases (gap, method choice, result statement, conclusion, references) remain cross-disciplinary — still from `phrase-bank.md` Part B.
 
-### Step 1 — Starting 原创性自检 (Gate)
+### Step 1 — Starting原创性自检 (Gate)
 
-按 `references/paper-criteria.md` 的「一、Starting 事前准备」逐条评估：
+Evaluate each of the four questions per `references/paper-criteria.md` Section 一:
 
-- ① 是否做了新颖且引人兴趣的事？
-- ② 研究是否有挑战性？
-- ③ 是否直接关联当前热点？
-- ④ 是否提供了困难问题的解法？
+1. Have you done something new and interesting?
+2. Is there anything challenging in your work?
+3. Is the work directly related to a current hot topic?
+4. Have you provided solutions to any difficult problems?
 
-对每项给出 **yes / no** 判定与一句话理由。这是**预检门，不阻断改稿**；但若任一项为 no，在报告开头标注风险（例如「核心 novelty 不清晰，建议先明确贡献再重度润色」）。
+Give a **yes/no** verdict with a one-sentence reason for each. This is a **non-blocking pre-check**: if any item is no, flag the risk at the top of the report (e.g., "Core novelty unclear — recommend clarifying contribution before heavy polishing"), but do not block structural revision.
 
-> 语义澄清：来源框架将「4 问全 yes」作为「可开始撰写」的前置条件；本 skill 用于**已成型稿件的修改**，故实现为**非阻断预检**——差异在此明确，避免两次阅读产生歧义。
+> Semantic note: the source framework treats "all 4 yes" as a prerequisite for beginning writing; this skill is for revising **existing manuscripts**, so it is implemented as a non-blocking pre-check — the difference is explicit to avoid confusion.
 
-### Step 2 — 逐节结构化审查 (Section Review)
+### Step 2 — Section-by-Section Structured Review
 
-按论文自然顺序（见 `sci-writing-standard.md` 的「0. 通用标准顺序」）对 10 个部分分别审查。每节流程：
+Review all 10 sections in natural paper order (see `sci-writing-standard.md` Section 0). Per section:
 
-1. **加载标准**：加载 `references/sci-writing-standard.md` 对应锚点的详细配方（字数/句式/模板/避雷）作为主标准；同时参考 `references/paper-criteria.md` 对应 `#` 锚点的通用原则。若稿件属非生科领域，额外加载 `references/discipline-templates.md` 对应学科（D1–D5）的 M&M 与指标句式。
-2. **逐条核对**：对照草稿逐条核对，找出违规项或薄弱项。
-3. **记录问题**：对每处问题记录四要素：
-   - **位置**（章节 + 引文片段）
-   - **违反的标准**（引用框架条目）
-   - **严重程度**（高 / 中 / 低）
-   - **具体改写建议**：从 `references/phrase-bank.md` 检索贴合该节/功能的英文句式**骨架**，用稿件中的真实变量替换 `XXX`/`X`/`Y` 后给出**可套用的句子**，而非空泛建议。严禁原样输出带具体内容的示例句（见执行规则「禁止逐字照搬」）。
+1. **Load standards**: load the detailed recipe for the corresponding anchor point in `references/sci-writing-standard.md` as the primary standard; also consult the matching `#` anchor in `references/paper-criteria.md`. For non-life-science manuscripts, additionally load `references/discipline-templates.md` for the relevant discipline (D1–D5).
+2. **Cross-check line by line** against the draft; flag violations or weaknesses.
+3. **Record each issue** with four fields:
+   - **Location** (section + quoted text fragment)
+   - **Violated standard** (reference to framework item)
+   - **Severity** (High / Medium / Low)
+   - **Specific revision suggestion**: retrieve an English sentence skeleton from `references/phrase-bank.md` appropriate for the section/function, replace `XXX`/`X`/`Y` placeholders with the author's actual variables, and present a **ready-to-use sentence** — never a vague suggestion. Never copy a template example sentence verbatim (see execution rule "禁止逐字照搬").
 
-**严重程度决策树**（按优先级下推，命中上层即停止，避免主观浮动）：
+**Severity decision tree** (evaluate top-down, stop at first match):
 
-> 从最严重的条件开始逐层检查，**优先就高**：若一处同时命中「高」和「中」，按「高」记录，在建议中说明中档影响。
+> Start from the most severe condition and check downwards — if an issue matches both "High" and "Medium", record it as High and note the Medium-level impact in the suggestion.
 
-1. **数据/结论有误、缺失核心要素（如摘要无结果/引言无 gap）、违反复现/伦理底线、图表与正文矛盾？** → **高（High）** — 直接威胁可信度或送审资格，必须修复。
-2. **论证链不完整（gap 不具体、结果未呼应方法）、结构混淆（结果与讨论串味）、摘要类型/字数不符期刊、关键词不规范？** → **中（Medium）** — 削弱说服力但不致命。
-3. **其余问题？** → **低（Low）** — 语句瑕疵、用词冗余、参考文献格式小错等，不影响科学内容。
+1. **Data/conclusion errors, missing core elements (e.g., abstract without results / introduction without gap), reproducibility/ethics violations, figure-text contradictions?** → **High** — directly threatens credibility or acceptability, must be fixed.
+2. **Incomplete argument chain (gap not specific, results not mirroring methods), structural confusion (Results/ Discussion bleed), wrong abstract type/word count, non-standard keywords?** → **Medium** — weakens persuasiveness but not fatal.
+3. **Everything else?** → **Low** — phrasing quirks, wordiness, minor reference format issues; does not affect scientific content.
 
-**图/表边界**：从纯文本稿件无法核验图的误差线、N 值、图文一致性等视觉要素。此类条目在稿件未附图时标注「需看图稿后复核」，不臆断达标或违例。
+**Figure/table boundary**: visual elements (error bars, N values, figure-text consistency) cannot be verified from plain text. Flag such items as "needs visual verification" without asserting pass/fail.
 
-**章节与标准锚点映射**（主标准 = sci-writing-standard.md，原则依据 = paper-criteria.md）：
+**Section-to-anchor mapping**:
 
-| 章节 | 主标准锚点 | 原则依据 | 审查重点 |
-|------|------------|----------|----------|
-| 题目 Title | `## 1. Title` | `#2.1` | 15-22 词；含对象+方法+亮点；避雷（无疑问句/缩写/夸大） |
-| 摘要 Abstract | `## 2. Abstract` | `#2.2` | 5 段式 200-250 词；痛点→缺口→做法→数据→意义；无参考文献 |
-| 关键词 Keywords | `## Keywords` | `#2.3` | 符合作者指南；反映实质论题；无非常规缩写 |
-| 引言 Introduction | `## 3. Introduction` | `#2.4` | 背景→现状→不足→目的→意义；不足具体且本文可解 |
-| 方法 Methods | `## 4. Materials and Methods` | `#2.5` | 可复现；材料可追溯；统计方法明确 |
-| 结果 Results | `## 5. Results` | `#2.6` | 只摆数据不解读；图表自明/独立/标注齐全 |
-| 讨论 Discussion | `## 6. Discussion` | `#2.7` | 4 步法；对标文献；深挖机理；写局限 |
-| 结论 Conclusion | `## 7. Conclusion` | `#2.8` | 3 句模板；不重复讨论、不新增数据/结论 |
-| 致谢 Acknowledgments | — | `#2.10` | 列明基金资助、伦理审批/知情同意、利益冲突声明；无遗漏致谢、无不当署名、无未授权致谢 |
-| 参考文献 References | — | `#2.9` | 贴合刊式；近 3-5 年高被引≥70%；引本社文献；无错 DOI |
+| Section | Primary anchor | Principles anchor | Key review points |
+|---------|---------------|-------------------|-------------------|
+| Title | `## 1. Title` | `#2.1` | 15–22 words; object + method + highlight; avoid (questions, abbreviations, exaggeration) |
+| Abstract | `## 2. Abstract` | `#2.2` | 5-part, 200–250 words; pain→gap→method→data→significance; no references |
+| Keywords | `## Keywords` | `#2.3` | Matches author guidelines; reflects substantive topic; no non-standard abbreviations |
+| Introduction | `## 3. Introduction` | `#2.4` | Background→status→gap→purpose→significance; gap must be specific and addressable by this paper |
+| Methods | `## 4. Materials and Methods` | `#2.5` | Reproducible; materials traceable; statistical methods explicit |
+| Results | `## 5. Results` | `#2.6` | Data only, no interpretation; figures/tables self-sufficient with complete annotations |
+| Discussion | `## 6. Discussion` | `#2.7` | 4-step method; benchmark literature; deep mechanism; acknowledge limitations |
+| Conclusion | `## 7. Conclusion` | `#2.8` | 3-sentence template; do not repeat Discussion; no new data/conclusions |
+| Acknowledgments | — | `#2.10` | Fund sources, ethics approval/informed consent, COI statement; no omissions, no unauthorized acknowledgements |
+| References | — | `#2.9` | Matches journal style; ≥70% highly cited within 3–5 years; cite journal's own papers; no incorrect DOIs |
 
-> **M&M 模板因学科差异大**：生科/医学见 `phrase-bank.md` `A4`；理工/CS/工程、经管、农林、文科/社科见 `discipline-templates.md` `D1`–`D4`（学科→模板路由表在该文件末尾）。通用功能短语（gap、方法选择、结果陈述、结论、参考文献）跨领域通用，仍取 `phrase-bank.md` 的 B 部。
+> **M&M templates vary by discipline**: life sciences/medicine see `phrase-bank.md` A4; STEM/CS/engineering, economics, agriculture, humanities/social sciences see `discipline-templates.md` D1–D4 (discipline-to-template routing table at the end of that file). Generic functional phrases remain in `phrase-bank.md` Part B.
 
-### Step 3 — 产出审阅报告 (Review Report) — 默认交付物
+### Step 3 — Produce Review Report (default deliverable)
 
-以结构化 Markdown 报告呈现：
+Structured Markdown report:
 
-- **顶部**：原创性自检结果 + 总体评价（strengths / top issues）。
-- **逐节表格**：`| 编号 | 章节 | 问题 | 严重程度 | 标准依据 | 改写建议 |`（编号统一用 `R1`、`R2`… 格式，供 Step 4 引用）。改写建议尽量给出**已用本稿真实变量替换后的成品句**（作者可直接套用），但句式仅借 `phrase-bank.md` 的骨架，**严禁原样照搬模板示例句**——见执行规则「禁止逐字照搬」。
-- **尾部**：按严重程度排序的修改清单（高 severity 优先）。
+- **Top**: originality self-check results + overall evaluation (strengths / top issues).
+- **Section-by-section table**: `| ID | Section | Issue | Severity | Standard | Suggestion |` (IDs use `R1`, `R2`… format for Step 4 referencing). Suggestions should be **ready-to-use sentences with the author's variables substituted** (borrow only the skeleton from `phrase-bank.md`; never copy template example sentences verbatim).
+- **Bottom**: revised issue list ordered by severity (high first).
 
-**报告骨架**（每次保持一致，可直接套用）：
+**Report skeleton** (consistent across uses):
 
 ```
-# 论文审阅报告
-## 0. 原创性自检（4 问）
-| 问题 | 判定 | 理由 |
-|------|------|------|
-| ① 新颖且有趣 | yes/no | ... |
-| ② 有挑战 | yes/no | ... |
-| ③ 关联热点 | yes/no | ... |
-| ④ 提供解法 | yes/no | ... |
-总体评价：strengths / top issues
+# Manuscript Review Report
+## 0. Originality Self-Check (4 questions)
+| Question | Verdict | Reason |
+|----------|---------|--------|
+| ① New and interesting | yes/no | ... |
+| ② Challenging | yes/no | ... |
+| ③ Related to hot topic | yes/no | ... |
+| ④ Provides solution | yes/no | ... |
+Overall: strengths / top issues
 
-## 1. 逐节审查
-| 编号 | 章节 | 问题 | 严重程度 | 标准依据 | 改写建议 |
-|------|------|------|----------|----------|----------|
-| R1 | ... | ... | 高/中/低 | sci-writing-standard `## x` / paper-criteria `#2.x` | 句式见 phrase-bank `A#/B#` |
+## 1. Section-by-Section Review
+| ID | Section | Issue | Severity | Standard | Suggestion |
+|----|---------|-------|----------|----------|------------|
+| R1 | ... | ... | H/M/L | sci-writing-standard `## x` / paper-criteria `#2.x` | Phrase from phrase-bank `A#/B#` |
 
-## 2. 修改清单（按严重程度，带编号 R#）
-- R1. [高] ...
-- R2. [中] ...
-- R3. [低] ...
+## 2. Revision Checklist (ordered by severity, with R# IDs)
+- R1. [High] ...
+- R2. [Medium] ...
+- R3. [Low] ...
 ```
 
-报告须可独立阅读、不依赖对话上下文。
+Report must be self-contained and readable without prior conversation context.
 
-### Step 4 — 选择性落盘改稿 (Apply Edits, opt-in)
+### Step 4 — Apply Edits (opt-in)
 
-报告交付后，**询问用户**是否将建议落到稿件，提供选项：
+After delivering the report, **ask the user** whether to apply suggestions to the manuscript:
 
-- **A 全部修改**（默认） → AI 按报告逐条修改。
-- **B 部分修改** → 用户指定编号、章节或严重度（如「改 R1、R3」「只改讨论」「改高和中」）。
-- **C 不修改** → 用户自行处理，流程结束。
-- **应用方式**：在用户确认的范围内于原文件修改（保留改动可追溯），或产出「修订版」文件 + **改动摘要**（逐条列出 `R#` → 实际改动内容），便于回看与撤销。
-- **未获确认前，绝不改动用户文件。**
+- **A All edits** (default) → AI revises per report item by item.
+- **B Selective edits** → user specifies IDs, sections, or severity (e.g., "fix R1 and R3", "only Discussion", "fix High and Medium").
+- **C No edits** → user handles manually; flow ends.
+- **Application method**: modify the original file (keeping change traceability) or produce a "revised version" file + **change log** (listing each `R#` → actual change) for easy rollback.
+- **Never modify the user's file without explicit confirmation.**
 
-### Step 5 — 改后再审 (Re-review, opt-in)
+### Step 5 — Re-review (opt-in)
 
-应用修改后，**询问用户**是否需要再审。用户自然语言回答，确认则核查已改条目，跳过则结束流程。
+After edits are applied, **ask the user** whether a re-review is needed. Confirm to verify corrected items; skip to end if declined.
 
 ---
 
-## 三、执行规则
+## III. Execution Rules
 
-### 3.1 上下文加载策略
+### 3.1 Context-loading strategy
 
-**不要整份加载任何 reference 文件到上下文。** 按以下顺序按需抽取：
+**Do not load any reference file into context wholesale.** Load on demand only:
 
-1. **Step 1 原创性自检** → `grep -A 15 "一、Starting" references/paper-criteria.md`
-2. **Step 2 逐节审查（每节独立进行）**：
-   - 主标准（替换 `N` 为节号，如 `## 1.`、`## 2.`）：`grep -A 20 "^## N\." references/sci-writing-standard.md`
-   - 原则参考（替换 `N` 为节号，如 `2.1`、`2.2`）：`grep -A 15 "^### 2\.[0-9]" references/paper-criteria.md`
-   - 非生科稿件额外：`grep -A 10 "^## D[1-5]" references/discipline-templates.md`
-3. **改写建议（在 Step 2 问题记录时）**：
-   - 按章节检索（A1–A8，替换 `N` 为数字）：`grep -A 10 "^### A[1-8]" references/phrase-bank.md`
-   - 按功能检索（B1–B13，替换 `N` 为数字）：`grep -A 10 "^### B[1-9][0-3]?" references/phrase-bank.md`
-4. **每审完一节，主动释放该节上下文**（切换到下一节前清除不再需要的前一节内容）。
+1. **Step 1 Originality check** → `grep -A 15 "一、Starting" references/paper-criteria.md`
+2. **Step 2 Section review (per section independently)**:
+   - Primary standard (replace `N` with section number, e.g., `## 1.`, `## 2.`): `grep -A 20 "^## N\\." references/sci-writing-standard.md`
+   - Principles reference (replace `N` with section number, e.g., `2.1`, `2.2`): `grep -A 15 "^### 2\\.[0-9]" references/paper-criteria.md`
+   - Non-life-science manuscripts additionally: `grep -A 10 "^## D[1-5]" references/discipline-templates.md`
+3. **Revision suggestions (during Step 2 issue recording)**:
+   - By section (A1–A8, replace `N` with digit): `grep -A 10 "^### A[1-8]" references/phrase-bank.md`
+   - By function (B1–B13, replace `N` with digit): `grep -A 10 "^### B[1-9][0-3]?" references/phrase-bank.md`
+4. **After reviewing each section, actively release that section's context** before switching to the next.
 
-### 3.2 问题数据结构
+### 3.2 Issue data structure
 
-Step 2 记录的每条问题应严格遵循以下结构。Step 3 报告和 Step 4 选择性勾选都依赖此结构的完整性：
+Each issue recorded in Step 2 must strictly follow this structure. Step 3 reporting and Step 4 selective application both depend on its completeness:
 
 ```
-每条问题 = {
-  id:       "R1"           // 自动递增编号，供 Step 4 引用
-  section:  "Discussion"   // 所在章节
-  problem:  "未对标前人文献，第 3 段结论缺少文献支撑"  // 问题描述（含引文片段）
-  severity: "中"           // 高 / 中 / 低——按 Step 2 决策树判定
-  ref:      "sci-writing-standard ## 6.2"  // 违反的标准引用
-  suggestion: "建议补充：'Our findings are consistent with those reported by Smith et al. (2020), who found that…'"  // 已替换变量的可套用改写建议
+Each issue = {
+  id:       "R1"           // auto-incrementing, for Step 4 referencing
+  section:  "Discussion"   // which section
+  problem:  "未对标前人文献，第3段结论缺少文献支撑"  // issue description (with quoted text)
+  severity: "Medium"       // High / Medium / Low — per Step 2 decision tree
+  ref:      "sci-writing-standard ## 6.2"  // violated standard
+  suggestion: "建议补充：'Our findings are consistent with those reported by Smith et al. (2020), who found that…'"  // ready-to-use suggestion
 }
 ```
 
-每条问题记录为一个独立的代码块 ```` ` ```` 或列表条目，确保 Step 3 格式化渲染时不再丢失字段。
+Record each issue as a separate fenced code block or list entry to preserve all fields during Step 3 formatting.
 
-### 3.3 质量准则
+### 3.3 Quality criteria
 
-- **证据先行**：每条问题必须引用稿件原文片段，不凭印象或猜测。
-- **改写建议具体**：给出可直接使用的句子，避免「建议更清晰」这类空话。
-- **句式有据**：英文改写建议优先取自 `phrase-bank.md` 的句式**骨架**；套用其结构时，变量必须来自用户稿件，保证学术表达地道且为作者原创内容，而非复制模板句的成品。仅在有明显缺失时自撰并标注。
-- **区分事实与意见**：框架标准属事实依据；「是否新颖」属判断，须明确标注为判断。
-- **语言匹配**：中文稿用中文审稿术语，英文稿用英文术语；标准本身双语通用。
-- **尊重原文**：改稿是优化表达与结构，不擅自改变作者的科学结论或数据。
-- **禁止逐字照搬**：只取 `phrase-bank.md` 的句式结构与功能，**变量必须来自用户稿件**；输出句式应多变，避免所有稿件套用同一套固定开头；对 phrase-bank 中带具体内容的示例句（如 `because of the rarity of this cancer`），必须替换为用户实际研究对象，严禁原样填入稿件。本准则的目的：模板仅作结构借鉴，确保产出为作者原创表达，杜绝模板化套用与无意复制。
+- **Evidence first**: every issue must cite a manuscript excerpt; no guessing.
+- **Specific suggestions**: provide usable sentences, not "suggest making it clearer".
+- **Phrases grounded**: English revision suggestions优先 from `phrase-bank.md` sentence **skeletons**; when套用, variables must come from the author's manuscript. Self-authored sentences only when clearly necessary, and mark them as such.
+- **Distinguish fact from opinion**: framework standards are factual; "is it novel" is judgment — label it as such.
+- **Language matching**: Chinese draft → Chinese review terminology; English draft → English terminology; standards themselves are bilingual.
+- **Respect the original**: revision optimises expression and structure; never alter the author's scientific conclusions or data.
+- **No verbatim template copying**: only borrow structure and function from `phrase-bank.md`; **variables must come from the author's manuscript**; output sentences should vary — avoid every manuscript starting the same way; for template examples with specific content (e.g., `because of the rarity of this cancer`), replace with the author's actual research subject. **Purpose**: templates are structural guides only, ensuring original expression and preventing unintentional copying.
