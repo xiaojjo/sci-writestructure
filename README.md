@@ -24,19 +24,42 @@ STEM / Humanities / Medicine / Agriculture / Economics — language-agnostic, wo
 ## Workflow
 
 ```mermaid
-flowchart TD
-    A[User submits manuscript] --> B[Step 0 — Intake]
-    B --> C[Confirm: file path / pasted text\nReview scope / Discipline]
-    C --> D[Step 1 — Originality Gate\n4 questions, yes/no + reason]
-    D --> E[Step 2 — Section-by-Section Review\nLoad standards via grep\nCross-check each section]
-    E --> F[Record issues: severity H/M/L\n+ ready-to-use suggestion per issue]
-    F --> G[Step 3 — Produce Report\nMarkdown review report]
-    G --> H{User opts in?}
-    H -->|Yes| I[Step 4 — Apply Edits\nFull / selective / rollback]
-    H -->|No| J[End]
-    I --> K{Re-review needed?}
-    K -->|Yes| E
-    K -->|No| J
+flowchart LR
+    subgraph input["📥 Intake"]
+        A1[Submit\nmanuscript] --> A2[Confirm scope\n& discipline]
+    end
+
+    subgraph gate["🚪 Originality Gate"]
+        B1[4-question\npre-check] --> B2{Any no?}
+        B2 -->|Yes| B3[⚠️ Risk flag\nin report top]
+        B2 -->|No| C1
+        B3 --> C1
+    end
+
+    subgraph review["🔍 Section Review"]
+        C1[Load standards\nper section] --> C2[Cross-check\ndraft line by line]
+        C2 --> C3[Record issues:\nSeverity + Suggestion]
+    end
+
+    subgraph report["📄 Report"]
+        D1[Generate\nMarkdown report] --> D2{Opt-in edits?}
+    end
+
+    subgraph edit["✏️ Apply Edits"]
+        E1[Full / Selective\n/ Rollback] --> E2[Change log\nR# → actual change]
+    end
+
+    subgraph loop["🔄 Re-review"]
+        F1{Re-review\nneeded?}
+        F1 -->|Yes| C1
+        F1 -->|No| END[✓ Done]
+    end
+
+    A2 --> B1
+    C3 --> D1
+    D2 -->|Yes| E1
+    D2 -->|No| END
+    E2 --> F1
 ```
 
 **Step summary**
