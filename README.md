@@ -1,24 +1,98 @@
-# sci-writestructure
-基于 IMRAD 结构骨架 + SCI 通用写作范式，对学术论文草稿做逐节诊断、严重程度评级与改写建议。
-## 功能
-- 原创性自检（4 问）
-- 题目 / 摘要 / 关键词 / 引言 / 方法 / 结果 / 讨论 / 结论 / 致谢 / 参考文献 逐节审查
-- 中英双语适用
-- 先出审阅报告，经确认后再落盘改稿
-## 如何拉取
-```bash
-git clone https://github.com/xiaojjo/sci-writestructure.git
+# Paper Revision (sci-writestructure)
+
+> Diagnose and revise academic manuscript drafts section by section — based on IMRAD structure and universal SCI writing standards.
+
+---
+
+## Overview
+
+`sci-writestructure` is a Hermes Agent skill that reviews SCI manuscript drafts against a structured checklist, then produces a severity-ranked revision report with ready-to-use sentence suggestions.
+
+**What it does:**
+
+- Runs a 4-question originality gate before detailed review
+- Checks all 10 paper sections (Title → References) against journal-grade standards
+- Produces a Markdown review report with ranked issues and actionable suggestions
+- Applies edits only after user confirmation
+
+**What it covers:**
+
+STEM / Humanities / Medicine / Agriculture / Economics — language-agnostic, works for both Chinese and English drafts.
+
+---
+
+## Workflow
+
+```mermaid
+flowchart TD
+    A[User submits manuscript] --> B[Step 0 — Intake]
+    B --> C[Confirm: file path / pasted text\nReview scope / Discipline]
+    C --> D[Step 1 — Originality Gate\n4 questions, yes/no + reason]
+    D --> E[Step 2 — Section-by-Section Review\nLoad standards via grep\nCross-check each section]
+    E --> F[Record issues: severity H/M/L\n+ ready-to-use suggestion per issue]
+    F --> G[Step 3 — Produce Report\nMarkdown review report]
+    G --> H{User opts in?}
+    H -->|Yes| I[Step 4 — Apply Edits\nFull / selective / rollback]
+    H -->|No| J[End]
+    I --> K{Re-review needed?}
+    K -->|Yes| E
+    K -->|No| J
 ```
-## 文件结构
+
+**Step summary**
+
+| Step | Action | Deliverable |
+|------|--------|-------------|
+| 0 — Intake | Confirm manuscript, scope, discipline | — |
+| 1 — Originality Gate | 4-question pre-check (non-blocking) | Risk flag if any no |
+| 2 — Section Review | Load standards per section; cross-check draft | Issue list with severity + suggestion |
+| 3 — Report | Generate structured Markdown report | `# Manuscript Review Report` |
+| 4 — Apply Edits | Modify original or produce revised version | Change log (R# → actual change) |
+| 5 — Re-review (opt-in) | Verify corrections | Updated report or end |
+
+---
+
+## Quick Start
+
+**In Hermes Agent:**
+
 ```
-SKILL.md                       # Skill 主流程与执行规则
+@sci-writestructure  review my manuscript at D:/path/to/draft.docx
+```
+
+Or paste text directly:
+
+```
+@sci-writestructure  here is my Discussion section — please review
+```
+
+The agent will automatically trigger the full workflow.
+
+---
+
+## File Structure
+
+```
+SKILL.md                       ← Main workflow + execution rules
 references/
-  paper-criteria.md            # 原创性自检 + 各节原则
-  sci-writing-standard.md      # 各节字数/句式公式、避雷点
-  phrase-bank.md               # 英文句式模板
-  discipline-templates.md      # 非生科学科 M&M 与指标措辞
+  paper-criteria.md            ← Originality gate + per-section principles
+  sci-writing-standard.md      ← Per-section recipes (word counts, pitfalls)
+  phrase-bank.md               ← English sentence skeletons by section & function
+  discipline-templates.md      ← Non-life-science M&M and metric phrasing
 ```
-## 使用方法
-在 Hermes Agent 中引用本 skill 后，提交论文草稿或指定章节即可自动触发审阅流程。
-## 适用学科
-理工 / 文理 / 医学 / 农林 / 经管等 SCI 通用学科。
+
+---
+
+## Key Design Decisions
+
+- **Non-blocking gate**: originality check flags risk but never blocks revision
+- **On-demand loading**: reference files are `grep`-loaded per section; never loaded wholesale
+- **Severity-driven**: High → Medium → Low; each issue gets a ready-to-use sentence suggestion
+- **No verbatim template copying**: variables always come from the author's manuscript
+- **Opt-in edits**: never modify the user's file without explicit confirmation
+
+---
+
+## License
+
+MIT — use, modify, and distribute freely.
