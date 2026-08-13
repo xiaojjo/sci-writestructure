@@ -148,7 +148,7 @@ After edits are applied, **ask the user** whether a re-review is needed. Confirm
    - Non-life-science manuscripts additionally: `grep -A 10 "^## D[1-5]" references/discipline-templates.md`
 3. **Revision suggestions (during Step 2 issue recording)**:
    - By section (A1–A8, replace `N` with digit): `grep -A 10 "^### A[1-8]" references/phrase-bank.md`
-   - By function (B1–B13, replace `N` with digit): `grep -A 10 "^### B[1-9][0-3]?" references/phrase-bank.md`
+   - By function (B1–B13, replace `N` with digit): `grep -A 10 "^### B[0-9]" references/phrase-bank.md` and `grep -A 10 "^### B[0-9][0-9]" references/phrase-bank.md` (for B10–B13)
 4. **After reviewing each section, actively release that section's context** before switching to the next.
 
 ### 3.2 Issue data structure
