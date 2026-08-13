@@ -99,7 +99,7 @@ SCI abstracts do not write background fluff or subjective reflections. Strictly 
 
 ---
 
-## 6. Discussion (the高分 core — where impact factor is won or lost)
+## 6. Discussion 
 
 **Core**: interpret data + benchmark literature + articulate innovation. Whether the paper is accepted or upgraded depends on this chapter.
 
@@ -113,7 +113,7 @@ SCI abstracts do not write background fluff or subjective reflections. Strictly 
 
 ---
 
-## 7. Conclusion (concise, do not repeat Discussion)
+## 7. Conclusion 
 
 **3-sentence template**:
 
