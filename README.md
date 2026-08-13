@@ -25,11 +25,11 @@ STEM / Humanities / Medicine / Agriculture / Economics — language-agnostic, wo
 
 ```mermaid
 flowchart TB
-    %% 定义样式
-    classDef startEnd fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef process fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
-    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px;
-    classDef risk fill:#ffebee,stroke:#c62828,stroke-width:2px;
+    %% 定义样式（强制黑色文字）
+    classDef startEnd fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000000;
+    classDef process fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000000;
+    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000000;
+    classDef risk fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#000000;
 
     A[提交稿件] --> B[步骤0：收稿登记]
     B --> C[步骤1：原创性初审<br>（4项预检）]
